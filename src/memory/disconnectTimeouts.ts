@@ -69,7 +69,7 @@ export const timeoutManagement = {
         // Clean up session
         sessionStore.remove(sessionId);
         disconnectTimeouts.delete(sessionId);
-        // console.log(`Session and room cleanup completed for socket ${socketId}`);
+        console.log(`Session and room cleanup completed for socket ${socketId}`);
       }, timeout_duration)
     );
   },
@@ -78,7 +78,7 @@ export const timeoutManagement = {
     if (timeout) {
       clearTimeout(timeout);
       disconnectTimeouts.delete(sessionId);
-      // console.log(`Player returned!`);
+      console.log(`Player returned!`);
     }
   }
 };

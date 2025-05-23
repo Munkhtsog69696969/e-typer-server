@@ -18,7 +18,7 @@ import { gameStore } from '../memory/gameStorage';
 
 export class SocketConfig {
     private io: SocketIOServer;
-    private readonly TIMEOUT_DURATION = 1000 * 15;
+    private readonly TIMEOUT_DURATION = 1000 * 60 * 5; // 5 minutes
 
     private readonly EVENTS: SocketDefaultEvents = {
         CONNECTION: 'connection',
@@ -47,7 +47,7 @@ export class SocketConfig {
 
     private initializeSocketEvents(): void {
         this.io.on(this.EVENTS.CONNECTION, (socket) => {
-            // console.log(`Client connected: ${socket.id}`);
+            console.log(`Client connected: ${socket.id}`);
             
             const session=socket.session;
             const sessionId = socket.session?.sessionId
@@ -58,7 +58,7 @@ export class SocketConfig {
 
             if (room) {
                 socket.join(room.roomCode);
-                // console.log(`Socket ${socket.id} rejoined room ${room.roomCode}`);
+                console.log(`Socket ${socket.id} rejoined room ${room.roomCode}`);
                 
                 // Notify other room members of rejoin
                 socket.to(room.roomCode).emit(this.EVENTS.PLAYER_JOINED, {
@@ -107,7 +107,7 @@ export class SocketConfig {
             SocketService.handleSocketCustomEvents(socket);
             
             socket.on(this.EVENTS.DISCONNECT, () => {
-                // console.log(`Client disconnected: ${socket.id}`);
+                console.log(`Client disconnected: ${socket.id}`);
                 if (socket.session) {
                     const sessionId = socket.session.sessionId;
                     const room = roomStore.getPlayerRoom(sessionId);
